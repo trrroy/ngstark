@@ -169,7 +169,12 @@ function ngstark_preprocess_page(&$variables, $hook) {
   drupal_add_js('http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.4.0.js','external');
   drupal_add_js('http://underscorejs.org/underscore.js','external');
   drupal_add_js('/sites/all/themes/ngstark/js/localStorageModule.js','file');
-  drupal_add_js('/sites/all/themes/ngstark/js/ng-scripts.js','file');
+  //drupal_add_js('/sites/all/themes/ngstark/js/ng-scripts.js','file');
+  drupal_add_js('/sites/all/themes/ngstark/js/app.js','file');
+  drupal_add_js('/sites/all/themes/ngstark/js/services.js','file');
+  drupal_add_js('/sites/all/themes/ngstark/js/controllers.js','file');
+  drupal_add_js('/sites/all/themes/ngstark/js/filters.js','file');
+  drupal_add_js('/sites/all/themes/ngstark/js/directives.js','file');
   drupal_add_css('//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css','external');
 }
 

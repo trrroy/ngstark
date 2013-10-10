@@ -122,6 +122,16 @@
             ),
           )); ?>
         </nav>
+        <?php if ($logged_in && arg(0) != 'contentasjson' && arg(0) != 'admin'): ?>
+            <div ng-controller="menuCntl">
+              <ul>
+                <li ng-repeat="item in mainMenu">
+                  title: {{item.link.title}}
+                </li>
+             </ul> 
+              <pre>$location.path() = {{$location.path()}}</pre>
+            </div>
+        <?php endif;?>
       <?php endif; ?>
 
       <?php print render($page['navigation']); ?>
@@ -145,9 +155,12 @@
       <?php if ($action_links): ?>
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
-      <ng-view ng-controller="appCtrl" <?php echo (arg(0)=='node' ? 'ng-init="nid = ' . arg(1) . '"' : '');  ?>>
+      <div <?php if ($logged_in && arg(0) != 'contentasjson' && arg(0) != 'admin'): ?>
+        ng-view ng-controller="homeCntl" 
+        <?php echo (arg(0)=='node' ? 'ng-init="nid = ' . arg(1) . '"' : '');  ?>
+      <?php endif;?>>
       <?php print render($page['content']); ?>
-      </ng-view>
+      </div>
       <?php print $feed_icons; ?>
     </div><!-- /#content -->
 
