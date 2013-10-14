@@ -124,9 +124,9 @@
         </nav>
         <?php if ($logged_in && arg(0) != 'contentasjson' && arg(0) != 'admin'): ?>
             <div ng-controller="menuCntl">
-              <ul>
-                <li ng-repeat="item in mainMenu">
-                  title: {{item.link.title}}
+              <ul class="btn-toolbar">
+                <li class="btn" ng-repeat="item in mainMenu">
+                  {{item.link.title}}
                 </li>
              </ul> 
               <pre>$location.path() = {{$location.path()}}</pre>
@@ -156,8 +156,8 @@
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
       <div <?php if ($logged_in && arg(0) != 'contentasjson' && arg(0) != 'admin'): ?>
-        ng-view ng-controller="homeCntl" 
-        <?php echo (arg(0)=='node' ? 'ng-init="nid = ' . arg(1) . '"' : '');  ?>
+        ng-view 
+        <?php echo (arg(0)=='node' ? 'ng-init="nid = ' . arg(1) . ';current_path=\'' . current_path() . '\'"' : '');  ?>
       <?php endif;?>>
       <?php print render($page['content']); ?>
       </div>

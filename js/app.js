@@ -6,11 +6,11 @@ angular.module('ngStark', ['ngStark.filters', 'ngStark.services', 'ngStark.direc
     /*$routeProvider.when('/admin/mobile/camp/:campId', {
       templateUrl: '//' + document.location.host + '/admin/mobile/ng-players.html',
       controller: 'PlayersCntl'
-    });
-    $routeProvider.when('/admin/mobile/camp/:campId/stats/:statsId/kid/:kidId',  {
-      templateUrl: '//' + document.location.host + '/admin/mobile/ng-stats.html',
-      controller: 'StatsCntl'
     });*/
+    $routeProvider.when('/tasks',  {
+      templateUrl: '//' + document.location.host + '/sites/all/themes/ngstark/templates/tasks.html',
+      controller: 'taskCntl'
+    });
     $routeProvider.otherwise({
       templateUrl: '//' + document.location.host + '/sites/all/themes/ngstark/templates/home.html',
       controller: 'homeCntl'

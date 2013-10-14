@@ -5,6 +5,8 @@ angular.module('ngStark.controllers', [])
     $scope.nodes = [];
     $scope.node = [];
     //$scope.nid = 649;
+    console.log('current path=' + $scope.current_path);
+    console.log('nid=' + $scope.nid);
     if ($scope.nid) {
       var url = "/contentasjson/node/" + $scope.nid;
       $http.get(url).then(function(response) {
@@ -26,4 +28,13 @@ angular.module('ngStark.controllers', [])
       console.log('YES menu loaded');
     });
     console.log('DONE menu');
+  })
+  .controller('taskCntl', function($scope, $route, $routeParams, $location, $http) {
+    $scope.taskList = [];
+    $http.get('/contentasjson/view/task_list-block_4').then(function(response) {
+      $scope.taskList = response.data;
+      console.log('tasks: ' + $scope.taskList);
+      console.log('YES tasks loaded');
+    });
+    console.log('DONE tasks');
   });
