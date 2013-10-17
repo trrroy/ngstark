@@ -31,6 +31,7 @@ angular.module('btford.socket-io', []).
       };
 
       var addListener = function (eventName, callback) {
+          console.log('socket-io listener');
         socket.on(eventName, asyncAngularify(callback));
       };
 
