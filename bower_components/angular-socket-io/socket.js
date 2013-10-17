@@ -12,7 +12,7 @@ angular.module('btford.socket-io', []).
     // when forwarding events, prefix the event name
     var prefix = 'socket:',
       ioSocket;
-     console.log('start socket');
+     console.log('start socket-io');
 
     // expose to provider
     this.$get = function ($rootScope, $timeout) {
@@ -21,6 +21,7 @@ angular.module('btford.socket-io', []).
 
       var asyncAngularify = function (callback) {
         return function () {  
+          console.log('socket-io async');
           var args = arguments;
           $timeout(function () {
             callback.apply(socket, args);
