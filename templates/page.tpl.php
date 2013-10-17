@@ -109,7 +109,16 @@
     <div id="navigation">
 
       <?php if ($main_menu): ?>
-        <nav id="main-menu" role="navigation">
+        <?php if ($logged_in && arg(0) != 'contentasjson' && arg(0) != 'admin'): ?>
+            <div ng-controller="menuCntl">
+              <ul class="btn-toolbar">
+                <li class="btn" ng-repeat="item in mainMenu">
+                  <a ng-click="go(item.link.router_path)">{{item.link.title}}</a>
+                </li>
+             </ul> 
+            </div>
+        <?php else:?>
+          <nav id="main-menu" role="navigation">
           <?php
           // This code snippet is hard to modify. We recommend turning off the
           // "Main menu" on your sub-theme's settings form, deleting this PHP
@@ -121,24 +130,19 @@
               'class' => array('links', 'inline', 'clearfix'),
             ),
           )); ?>
-        </nav>
-        <?php if ($logged_in && arg(0) != 'contentasjson' && arg(0) != 'admin'): ?>
-            <div ng-controller="menuCntl">
-              <ul class="btn-toolbar">
-                <li class="btn" ng-repeat="item in mainMenu">
-                  {{item.link.title}}
-                </li>
-             </ul> 
-              <pre>$location.path() = {{$location.path()}}</pre>
-            </div>
+          </nav>
+        <?php print render($page['navigation']); ?>
         <?php endif;?>
       <?php endif; ?>
 
-      <?php print render($page['navigation']); ?>
 
     </div><!-- /#navigation -->
 
-  <div id="main">
+  <div id="main"
+      <?php if ((!isset($_GET['view']) || $_GET['view'] != 'html') && $logged_in && arg(0) != 'contentasjson' && arg(0) != 'admin'): ?>
+         ng-view <?php echo (arg(0)=='node' ? 'ng-init="nid = ' . arg(1) . ';current_path=\'' . current_path() . '\'"' : '');  ?>
+      <?php endif;?>
+  >
 
     <div id="content" class="column" role="main">
       <?php print render($page['highlighted']); ?>
@@ -155,12 +159,7 @@
       <?php if ($action_links): ?>
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
-      <div <?php if ($logged_in && arg(0) != 'contentasjson' && arg(0) != 'admin'): ?>
-        ng-view 
-        <?php echo (arg(0)=='node' ? 'ng-init="nid = ' . arg(1) . ';current_path=\'' . current_path() . '\'"' : '');  ?>
-      <?php endif;?>>
       <?php print render($page['content']); ?>
-      </div>
       <?php print $feed_icons; ?>
     </div><!-- /#content -->
 

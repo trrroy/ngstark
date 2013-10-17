@@ -161,14 +161,19 @@ function ngstark_process_html(&$variables, $hook) {
  *   The name of the template being rendered ("page" in this case.)
  */
 function ngstark_preprocess_page(&$variables, $hook) {
+  global $base_url;
   if (!module_exists('contentasjson')) {
     // No needed_module means we need to add it, let everyone know.
     print "<h1>"  . t( 'Theme: ngstark requires that module contentasjson is installed') . "</h1>" . "<h6>"  . t( 'warning generated in file: %f', array ( '%f'=>__FILE__ )) . "</h6>";
   }
   drupal_add_js('https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js','external');
+  drupal_add_js('https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js','external');
   drupal_add_js('http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.4.0.js','external');
   drupal_add_js('http://underscorejs.org/underscore.js','external');
   drupal_add_js('/sites/all/themes/ngstark/js/localStorageModule.js','file');
+  drupal_add_js($base_url . ':8181/socket.io/socket.io.js','file');
+  drupal_add_js('/sites/all/themes/ngstark/bower_components/angular-socket-io/socket.js','file');
+
   //drupal_add_js('/sites/all/themes/ngstark/js/ng-scripts.js','file');
   drupal_add_js('/sites/all/themes/ngstark/js/app.js','file');
   drupal_add_js('/sites/all/themes/ngstark/js/services.js','file');

@@ -1,7 +1,8 @@
 <ul>
-  <li ng-repeat="task in taskList">
-    <p><b>Task id: </b>{{task.nid}}</p>
-    <p><b>Task Title: </b>{{task.node_title}}</p>
-    <p><b>Assigned To: </b><span>{{task._field_data.nid.entity.field_assigned_to.und[0].uid}}</span></p>
+  <li ng-repeat="item in tasks">
+    <p><b>{{item.node_title}}</b></p>
+    <p><b>Assigned: </b><span>{{item._field_data.nid.entity.field_assigned_to.und[0].uid}}</span></p>
+    <p><b>Due: </b><span>{{item._field_data.nid.entity.field_due.und[0].value}}</span></p>
+    <p><b>id: </b>{{item.nid}}</p>
   </li>
 </ul>
