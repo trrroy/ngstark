@@ -16,6 +16,7 @@ angular.module('btford.socket-io', []).
 
     // expose to provider
     this.$get = function ($rootScope, $timeout) {
+          console.log('socket-io get');
 
       var socket = ioSocket || io.connect('http://troy.doing-more.husointeractive.com:8181/socket.io', { resource : 'node/socket.io' });
 

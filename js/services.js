@@ -30,9 +30,11 @@ angular.module('ngStark.services', [])
        });
   })
   .factory('socket', function($rootScope) {
-     var socket = io.connect('http://troy.doing-more.husointeractive.com:8181/socket.io', { resource : 'node/socket.io' });
+    console.log('socket start');
+     var socket = io.connect('http://troy.doing-more.husointeractive.com:8181/', { resource : 'socket.io/socket.io.js' });
      return {
        on: function(eventName, callback) {
+           console.log('socket on');
          socket.on(eventName, function() {
            var args = arguments;
            $rootScope.$apply(function() {
@@ -41,6 +43,7 @@ angular.module('ngStark.services', [])
          });
        },
        emit: function(eventName, data, callback) {
+           console.log('socket emit');
          socket.emit(eventName, data, function() {
            var args = arguments;
            $rootScope.$apply(function() {
@@ -51,6 +54,7 @@ angular.module('ngStark.services', [])
          });
        },
        send: function(eventName, data, callback) {
+           console.log('socket send');
          socket.send(eventName, data, function() {
            var args = arguments;
            $rootScope.$apply(function() {
