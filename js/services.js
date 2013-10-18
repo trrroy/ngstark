@@ -7,31 +7,42 @@
 // In this case it is a simple value service.
 angular.module('ngStark.services', [])
   .value('version', '0.1')
-  .factory('taskService', function($resource) {
-     //var baseUrl = 'http://designit-todo.eu01.aws.af.cm/api/todos/:id';
-     var baseUrl = 'http://troy.doing-more.husointeractive.com:port/contentasjson/view/task_list-block_4';
-     console.log('baseurl:' + baseUrl);
-     return $resource(baseUrl,
-       {port: ':80'}, {
-         'get':    {method:'GET'},
-         'save':   {method:'POST'},
-         'query':  {method:'GET', isArray:true},
-       });
-
+  .factory('taskService', function($http) {
+    var taskService = {
+      async: function() {
+        // $http returns a promise, which has a then function, which also returns a promise
+        var promise = $http.get('/contentasjson/view/task_list-block_4').then(function (response) {
+          // The then function here is an opportunity to modify the response
+          console.log(response);
+          // The return value gets picked up by the then in the controller.
+          return response.data;
+        });
+        // Return the promise to the controller
+        return promise;
+      }
+    };
+    return taskService;
   })
-  .factory('peopleService', function($resource) {
-     var baseUrl = 'http://troy.doing-more.husointeractive.com:port/contentasjson/contentasjson/view/contacts_list-block_1';i
-     console.log('baseurl:' + baseUrl);
-     return $resource(baseUrl,
-       {port: ':80'}, {
-         'get':    {method:'GET'},
-         'save':   {method:'POST'},
-         'query':  {method:'GET', isArray:true},
-       });
+  .factory('peopleService', function($http) {
+    var peopleService = {
+      async: function() {
+        // $http returns a promise, which has a then function, which also returns a promise
+        var promise = $http.get('/contentasjson/view/contacts_list-block_1').then(function (response) {
+          // The then function here is an opportunity to modify the response
+          console.log(response);
+          // The return value gets picked up by the then in the controller.
+          return response.data;
+        });
+        // Return the promise to the controller
+        return promise;
+      }
+    };
+    return peopleService;
   })
   .factory('socket', function($rootScope) {
     console.log('socket start');
-     var socket = io.connect('http://troy.doing-more.husointeractive.com:8181/', { resource : 'socket.io/socket.io.js' });
+     //var socket = io.connect();
+     var socket = io.connect('http://troy.doing-more.husointeractive.com:8181/');
      return {
        on: function(eventName, callback) {
            console.log('socket on');

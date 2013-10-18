@@ -32,52 +32,32 @@ angular.module('ngStark.controllers', [])
     };
     console.log('DONE menu');
   })
-  .controller('taskCntl', function($scope, $route, $routeParams, $location, $http, $resource, taskService, socket) {
-    $scope.tasks = taskService.query();
+  .controller('taskCntl', function($scope, $route, $routeParams, $location, $http, taskService, socket) {
+    $scope.tasks = [];
+    updateTasks();
     socket.on('message', function(data) {
-      console.log('task message');
-      // Grab all tasks when new added via socket.
-      $scope.tasks = taskService.query();
-
-      $scope.tasks.push(data);
+      console.log("channel:" + data.channel);
+      updateTasks();
     });
-
-    // Complete/update task.
-    $scope.taskCompleted = function(task) {
-      console.log('task taskCompleted');
-      task.$update();
-      socket.emit('update_task', task);
+    function updateTasks() {
+      taskService.async().then(function(d) {
+        $scope.tasks = d;
+      });
     }
-    socket.on('taskUpdated', function(task) {
-      console.log('task updated');
-      // Update on all connected clients.
-      console.log(task);
-    });
+    //socket.emit('message', {"channel":"core_test"});
 
-    $scope.removeTask = function(task) {
-      console.log('task remove');
-      var index = $scope.tasks.indexOf(task);
-      socket.emit("delete_task", JSON.stringify(index));
-      $scope.tasks.splice(index, 1);
-      task.$remove();
-    }
-    socket.on('taskDeleted', function(index) {
-      console.log('task deleted');
-      $scope.tasks.splice(index, 1);
-    });
-    console.log('DONE tasks');
+    console.log('DONE tasks: auth:' + Drupal.settings.nodejs.authToken);
   })
-  .controller('contactCntl', function($scope, $rootScope, $route, $routeParams, $location, $http, $resource, peopleService, socket) {
-    $scope.contactList = peopleService.query();
-    /*$scope.contactList = [];
-    peopleService.async().then(function(d) {
-      $scope.contactList = d;
-    });*/
-    /*$http.get('/contentasjson/view/contacts_list-block_1').then(function(response) {
-      $scope.contactList = response.data;
-      console.log('contacts: ' + $scope.contactList);
-      console.log('YES contacts loaded');
-    });*/
-    console.log('cntllr contacts: ' + $scope.contactList);
+  .controller('contactCntl', function($scope, $rootScope, $route, $routeParams, $location, $http, peopleService, socket) {
+    $scope.contactList = [];
+    updateContacts();
+    socket.on('message', function(data) {
+      updateContacts();
+    });
+    function updateContacts() {
+      peopleService.async().then(function(d) {
+        $scope.contactList = d;
+      });
+    }
     console.log('DONE contacts');
   });
