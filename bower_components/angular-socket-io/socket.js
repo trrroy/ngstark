@@ -18,7 +18,16 @@ angular.module('btford.socket-io', []).
     this.$get = function ($rootScope, $timeout) {
           console.log('socket-io get');
 
-      var socket = ioSocket || io.connect('http://troy.doing-more.husointeractive.com:8181/socket.io', { resource : 'node/socket.io' });
+      //var socket = ioSocket || io.connect('http://troy.doing-more.husointeractive.com:8181/socket.io/socket.io.js', { resource : 'node/socket.io/socket.io.js' });
+      //var socket = ioSocket || io.connect('http://troy.doing-more.husointeractive.com:8181', { resource : 'socket.io' });
+      var socket = ioSocket || io.connect('http://troy.doing-more.husointeractive.com:8181');
+      /*
+         var authMessage = { 
+           authToken: Drupal.settings.nodejs.authToken,
+           contentTokens: Drupal.settings.nodejs.contentTokens 
+         };
+         socket.emit('authenticate', authMessage);
+         */
 
       var asyncAngularify = function (callback) {
         return function () {  
@@ -40,6 +49,7 @@ angular.module('btford.socket-io', []).
         addListener: addListener,
 
         emit: function (eventName, data, callback) {
+          console.log('socket-io emit');
           if (callback) {
             socket.emit(eventName, data, asyncAngularify(callback));
           } else {
@@ -48,6 +58,7 @@ angular.module('btford.socket-io', []).
         },
 
         removeListener: function () {
+          console.log('socket-io remove');
           var args = arguments;
           return socket.removeListener.apply(socket, args);
         },
@@ -55,6 +66,7 @@ angular.module('btford.socket-io', []).
         // when socket.on('someEvent', fn (data) { ... }),
         // call scope.$broadcast('someEvent', data)
         forward: function (events, scope) {
+          console.log('socket-io forward');
           if (events instanceof Array === false) {
             events = [events];
           }
